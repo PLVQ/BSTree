@@ -13,7 +13,7 @@ class BST
 {
 private:
     NODE_PTR m_bstRoot;
-    NODE_PTR _search(NODE_PTR const root, const int &key);
+    NODE_PTR _search(NODE_PTR const root, NODE_PTR &parent, const int &key);
     NODE_PTR _min(NODE_PTR const root);
     NODE_PTR _max(NODE_PTR const root);
     bool _insert(const int &key);

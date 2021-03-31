@@ -1,21 +1,22 @@
 #include "BSTree.h"
 
-NODE_PTR BST::_search(NODE_PTR const root, const int &key)
+NODE_PTR BST::_search(NODE_PTR const root, NODE_PTR &parent, const int &key)
 {
     if (root == nullptr) {
         return nullptr;
     }
-    NODE_PTR v = root;
-    while (v)
+    NODE_PTR goalNode = root;
+    while (goalNode)
     {
-        if (v->m_value == key) {
-            return v;
+        parent = goalNode;
+        if (goalNode->m_value == key) {
+            return goalNode;
         }
-        else if(v->m_value < key) {
-            v = v->m_rChild;
+        else if(goalNode->m_value < key) {
+            goalNode = goalNode->m_rChild;
         }
         else {
-            v = v->m_lChild;
+            goalNode = goalNode->m_lChild;
         }
     }
     return nullptr;
@@ -27,7 +28,7 @@ NODE_PTR BST::_min(NODE_PTR const root)
         return nullptr;
     }
     auto minNode = root;
-    while(minNode){
+    while(minNode->m_lChild){
         minNode = minNode->m_lChild;
     }
 
@@ -40,7 +41,7 @@ NODE_PTR BST::_max(NODE_PTR const root)
         return nullptr;
     }
     auto minNode = root;
-    while(minNode){
+    while(minNode->m_rChild){
         minNode = minNode->m_rChild;
     }
     return minNode;
@@ -82,7 +83,25 @@ bool BST::_insert(const int &key)
 
 bool BST::_delete(const int &key)
 {
+    NODE_PTR parent = nullptr;
+    NODE_PTR goalNode = _search(m_bstRoot, parent, key);
+    if (goalNode == nullptr) {
+        return false;
+    }
 
+    if (_isLeaf(goalNode)) {
+        if (parent == goalNode) {
+            m_bstRoot = nullptr;
+        }
+        else {
+            if (parent->m_lChild == goalNode) {
+                parent->m_lChild = nullptr;
+            }
+            else {
+                parent->m_rChild = nullptr;
+            }
+        }
+    }
 }
 
 bool BST::_isLeaf(NODE_PTR &curPtr)
