@@ -102,6 +102,12 @@ bool BST::_delete(const int &key)
             }
         }
     }
+    else if (_isNodeWithTwoChild(goalNode)) {
+
+    }
+    else {
+        
+    }
 }
 
 bool BST::_isLeaf(NODE_PTR &curPtr)
